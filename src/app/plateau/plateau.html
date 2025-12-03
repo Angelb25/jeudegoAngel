@@ -2,26 +2,10 @@
 
 <div class="tableau-container">
 
-  <!-- Grille 8×8 -->
+  <!-- Grille 8×8 : affichage seulement -->
   <div class="grille-8x8">
     <div class="game-board">
       @for (row of board8; track $index; let i = $index) {
-        <div class="row">
-          @for (cell of row; track $index; let j = $index) {
-            <div class="display-cell"
-                 (click)="onCellClick(i, j)"
-                 [ngClass]="getCellClass(i, j)">
-            </div>
-          }
-        </div>
-      }
-    </div>
-  </div>
-
-  <!-- Grille 9×9 -->
-  <div class="grille-9x9">
-    <div class="game-board">
-      @for (row of board9; track $index; let i = $index) {
         <div class="row">
           @for (cell of row; track $index; let j = $index) {
             <div class="display-cell"></div>
@@ -31,7 +15,32 @@
     </div>
   </div>
 
+  <!-- Grille 9×9 : interactive -->
+  <div class="grille-9x9">
+    <div class="game-board">
+      @for (row of board9; track $index; let i = $index) {
+        <div class="row">
+          @for (cell of row; track $index; let j = $index) {
+            <div class="display-cell"
+                 (click)="onCellClick(i,j)"
+                 (contextmenu)="onRightClick($event,i,j)"
+                 [ngClass]="getCellClass(i,j)">
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
 </div>
 
+<h5>Joueur 1 (blanc): {{ scorePlayer1 }}</h5>
+<h5>Joueur 2 (noir): {{ scorePlayer2 }}</h5>
+<h5>Tour actuel: {{ currentPlayer === 'black' ? 'Noir' : 'Blanc' }}</h5>
+
+<button (click)="finDeTour()">Fin de tour</button>
+<button (click)="passer()">Passer</button>
+
+<p *ngIf="gameOver">La partie est terminée.</p>
 <button (click)="nouvellepartie()">Nouvelle game</button>
-<p>@CopyrightbyAngelB</p>
+<p>©CopyrightByAngelB</p>
