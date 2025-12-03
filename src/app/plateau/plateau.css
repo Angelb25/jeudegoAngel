@@ -1,64 +1,89 @@
 h1 {
-  text-align: center;    
-  margin: 20px 0;        
+  text-align: center;
+  margin: 20px 0;
 }
 
 .tableau-container {
-  position: relative;   
-  width: 450px;          
-  height: 450px;         
-  margin: auto;           /* Centre le plateau */
+  position: relative;
+  width: 450px;
+  height: 450px;
+  margin: auto;
 }
 
 .grille-9x9,
 .grille-8x8 {
-  position: absolute;     /* Permet la superposition */
-  top: 0;                
-  left: 0;               
-  width: 100%;           
-  height: 100%;          
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .grille-9x9 {
-  z-index: 2;             /* En dessous */
-  opacity : 0.5;
+  z-index: 2;
+  opacity: 0.6;
+  pointer-events: none; 
+}
+
+.grille-9x9 .display-cell {
+  border: 1px solid black;
+  background-color: transparent;
 }
 
 .grille-8x8 {
-  z-index: 1;             /* Au-dessus */
-  width: 400px;         
-  height: 400px;         
-  top: 25px;             
-  left: 25px;           
+  z-index: 1;
+  width: 400px;
+  height: 400px;
+  top: 25px;
+  left: 25px;
 }
 
-/* Style général des tableaux */
-table {
+.game-board {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
-  border-collapse: collapse; 
-  background-color: #daa520; /* Couleur dorée du plateau */
+  background-color: #daa520;
 }
 
-/* pas de bordures visibles */
-.tableau9x9 td {
-  border: 1px solid transparent; /* Bordures invisibles */
-  background-color: #edff95;     /* Couleur des cases */
+.row {
+  display: flex;
+  flex: 1;
 }
 
-
-.grille-8x8 td {
-  border: 1px solid black;       
-  background-color: #edff95;    
-  transition: background-color 0.2s ease;
+.display-cell {
+  flex: 1;
+  border: 1px solid black;
+  background-color: #edff95;
+  position: relative;
+  cursor: pointer;
 }
 
-/* Effet au survol  */
-.grille-9x9 td:hover {
+.grille-8x8 .display-cell:hover {
   background-color: #c19a1f;
 }
 
-p {
-  text-align: center;    
-  margin-top: 20px;      
+.stone-black::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 70%;
+  background-color: black;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.stone-white::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 70%;
+  background-color: white;
+  border: 1px solid #000;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
 }

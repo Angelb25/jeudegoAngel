@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-plateau',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './plateau.html',
-  styleUrl: './plateau.css',
+  styleUrls: ['./plateau.css'],
 })
 export class Plateau {
-  onCellClick(row: number, col: number): void {
-    console.log(`Coup joué à : ligne ${row}, colonne ${col}`);
-  }
+  board9 = Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ''));
+  board8 = Array.from({ length: 8 }, () => Array.from({ length: 8 }, () => ''));
+  currentPlayer: 'black' | 'white' = 'black';
+
 }
