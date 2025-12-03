@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
+import { Plateau } from './plateau/plateau';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [Plateau],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -1,0 +1,64 @@
+h1 {
+  text-align: center;    
+  margin: 20px 0;        
+}
+
+.tableau-container {
+  position: relative;   
+  width: 450px;          
+  height: 450px;         
+  margin: auto;           /* Centre le plateau */
+}
+
+.grille-9x9,
+.grille-8x8 {
+  position: absolute;     /* Permet la superposition */
+  top: 0;                
+  left: 0;               
+  width: 100%;           
+  height: 100%;          
+}
+
+.grille-9x9 {
+  z-index: 2;             /* En dessous */
+  opacity : 0.5;
+}
+
+.grille-8x8 {
+  z-index: 1;             /* Au-dessus */
+  width: 400px;         
+  height: 400px;         
+  top: 25px;             
+  left: 25px;           
+}
+
+/* Style général des tableaux */
+table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse; 
+  background-color: #daa520; /* Couleur dorée du plateau */
+}
+
+/* pas de bordures visibles */
+.tableau9x9 td {
+  border: 1px solid transparent; /* Bordures invisibles */
+  background-color: #edff95;     /* Couleur des cases */
+}
+
+
+.grille-8x8 td {
+  border: 1px solid black;       
+  background-color: #edff95;    
+  transition: background-color 0.2s ease;
+}
+
+/* Effet au survol  */
+.grille-9x9 td:hover {
+  background-color: #c19a1f;
+}
+
+p {
+  text-align: center;    
+  margin-top: 20px;      
+}

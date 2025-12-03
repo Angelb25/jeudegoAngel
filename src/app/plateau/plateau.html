@@ -1,1 +1,194 @@
-<p>plateau works!</p>
+<h1>Jeu de go</h1>
+<div class="tableau-container">
+  <div class="grille-9x9">
+<table class="tableau9x9">
+        <tr>
+            <td (click)="onCellClick(0, 0)"></td>
+            <td (click)="onCellClick(0, 1)"></td>
+            <td (click)="onCellClick(0, 2)"></td>
+            <td (click)="onCellClick(0, 3)"></td>
+            <td (click)="onCellClick(0, 4)"></td>
+            <td (click)="onCellClick(0, 5)"></td>
+            <td (click)="onCellClick(0, 6)"></td>
+            <td (click)="onCellClick(0, 7)"></td>
+            <td (click)="onCellClick(0, 8)"></td>
+        </tr>
+        <tr>
+            <td (click)="onCellClick(1, 0)"></td>
+            <td (click)="onCellClick(1, 1)"></td>
+            <td (click)="onCellClick(1, 2)"></td>
+            <td (click)="onCellClick(1, 3)"></td>
+            <td (click)="onCellClick(1, 4)"></td>
+            <td (click)="onCellClick(1, 5)"></td>
+            <td (click)="onCellClick(1, 6)"></td>
+            <td (click)="onCellClick(1, 7)"></td>
+            <td (click)="onCellClick(1, 8)"></td>
+        </tr>
+        <tr>
+            <td (click)="onCellClick(2, 0)"></td>
+            <td (click)="onCellClick(2, 1)"></td>
+            <td (click)="onCellClick(2, 2)"></td>
+            <td (click)="onCellClick(2, 3)"></td>
+            <td (click)="onCellClick(2, 4)"></td>
+            <td (click)="onCellClick(2, 5)"></td>
+            <td (click)="onCellClick(2, 6)"></td>
+            <td (click)="onCellClick(2, 7)"></td>
+            <td (click)="onCellClick(2, 8)"></td>
+        </tr>
+        <tr>
+            <td (click)="onCellClick(3, 0)"></td>
+            <td (click)="onCellClick(3, 1)"></td>
+            <td (click)="onCellClick(3, 2)"></td>
+            <td (click)="onCellClick(3, 3)"></td>
+            <td (click)="onCellClick(3, 4)"></td>
+            <td (click)="onCellClick(3, 5)"></td>
+            <td (click)="onCellClick(3, 6)"></td>
+            <td (click)="onCellClick(3, 7)"></td>
+            <td (click)="onCellClick(3, 8)"></td>
+        </tr>
+        <tr>
+            <td (click)="onCellClick(4, 0)"></td>
+            <td (click)="onCellClick(4, 1)"></td>
+            <td (click)="onCellClick(4, 2)"></td>
+            <td (click)="onCellClick(4, 3)"></td>
+            <td (click)="onCellClick(4, 4)"></td>
+            <td (click)="onCellClick(4, 5)"></td>
+            <td (click)="onCellClick(4, 6)"></td>
+            <td (click)="onCellClick(4, 7)"></td>
+            <td (click)="onCellClick(4, 8)"></td>
+        </tr>
+        <tr>
+            <td (click)="onCellClick(5, 0)"></td>
+            <td (click)="onCellClick(5, 1)"></td>
+            <td (click)="onCellClick(5, 2)"></td>
+            <td (click)="onCellClick(5, 3)"></td>
+            <td (click)="onCellClick(5, 4)"></td>
+            <td (click)="onCellClick(5, 5)"></td>
+            <td (click)="onCellClick(5, 6)"></td>
+            <td (click)="onCellClick(5, 7)"></td>
+            <td (click)="onCellClick(5, 8)"></td>
+        </tr>
+        <tr>
+            <td (click)="onCellClick(6, 0)"></td>
+            <td (click)="onCellClick(6, 1)"></td>
+            <td (click)="onCellClick(6, 2)"></td>
+            <td (click)="onCellClick(6, 3)"></td>
+            <td (click)="onCellClick(6, 4)"></td>
+            <td (click)="onCellClick(6, 5)"></td>
+            <td (click)="onCellClick(6, 6)"></td>
+            <td (click)="onCellClick(6, 7)"></td>
+            <td (click)="onCellClick(6, 8)"></td>
+        </tr>
+        <tr>
+            <td (click)="onCellClick(7, 0)"></td>
+            <td (click)="onCellClick(7, 1)"></td>
+            <td (click)="onCellClick(7, 2)"></td>
+            <td (click)="onCellClick(7, 3)"></td>
+            <td (click)="onCellClick(7, 4)"></td>
+            <td (click)="onCellClick(7, 5)"></td>
+            <td (click)="onCellClick(7, 6)"></td>
+            <td (click)="onCellClick(7, 7)"></td>
+            <td (click)="onCellClick(7, 8)"></td>
+        </tr>
+        <tr>
+            <td (click)="onCellClick(8, 0)"></td>
+            <td (click)="onCellClick(8, 1)"></td>
+            <td (click)="onCellClick(8, 2)"></td>
+            <td (click)="onCellClick(8, 3)"></td>
+            <td (click)="onCellClick(8, 4)"></td>
+            <td (click)="onCellClick(8, 5)"></td>
+            <td (click)="onCellClick(8, 6)"></td>
+            <td (click)="onCellClick(8, 7)"></td>
+            <td (click)="onCellClick(8, 8)"></td>
+        </tr>
+
+</table>
+</div>
+  <div class="grille-8x8">
+<table>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+                <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+                <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+                <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+                <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+                <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+                <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+                <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+</table>
+</div>
+</div>
+
+<p>@CopyrightbyAngelB</p>
