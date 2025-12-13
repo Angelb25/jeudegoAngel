@@ -1,46 +1,58 @@
-<h1>Jeu de go</h1>
+<div id="app-container">
+  <h1 class="game-title">Jeu de Go</h1>
 
-<div class="tableau-container">
+  <button class="toggle-mode-button" (click)="toggleDarkMode()">
+    {{ isDarkMode ? '🌞 Mode Clair' : '🌙 Mode Sombre' }}
+  </button>
 
-  <!-- Grille 8×8 : affichage seulement -->
-  <div class="grille-8x8">
-    <div class="game-board">
-      @for (row of board8; track $index; let i = $index) {
-        <div class="row">
-          @for (cell of row; track $index; let j = $index) {
-            <div class="display-cell"></div>
-          }
-        </div>
-      }
+  <div class="tableau-container">
+    <!-- Grille 8×8 : visuelle uniquement -->
+    <div class="grille-8x8">
+      <div class="game-board">
+        @for (row of board8; track $index; let i = $index) {
+          <div class="row">
+            @for (cell of row; track $index; let j = $index) {
+              <div class="display-cell"></div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Grille 9×9 : interactive, transparente -->
+    <div class="grille-9x9">
+      <div class="game-board">
+        @for (row of board9; track $index; let i = $index) {
+          <div class="row">
+            @for (cell of row; track $index; let j = $index) {
+              <div class="display-cell"
+                   (click)="onCellClick(i,j)"
+                   (contextmenu)="onRightClick($event,i,j)"
+                   [ngClass]="getCellClass(i,j)">
+              </div>
+            }
+          </div>
+        }
+      </div>
     </div>
   </div>
 
-  <!-- Grille 9×9 : interactive -->
-  <div class="grille-9x9">
-    <div class="game-board">
-      @for (row of board9; track $index; let i = $index) {
-        <div class="row">
-          @for (cell of row; track $index; let j = $index) {
-            <div class="display-cell"
-                 (click)="onCellClick(i,j)"
-                 (contextmenu)="onRightClick($event,i,j)"
-                 [ngClass]="getCellClass(i,j)">
-            </div>
-          }
-        </div>
-      }
+  <div class="game-info-container">
+    <div class="player-info">
+      <h5 class="player-score">Joueur 1 (Blanc): <span>{{ scorePlayer1 }}</span></h5>
+      <h5 class="player-score">Joueur 2 (Noir): <span>{{ scorePlayer2 }}</span></h5>
     </div>
+
+    <h5 class="current-turn">Tour actuel: <span>{{ currentPlayer === 'black' ? 'Noir' : 'Blanc' }}</span></h5>
   </div>
 
+  <div class="game-controls">
+    <button class="game-button" (click)="finDeTour()">Fin de tour</button>
+    <button class="game-button" (click)="passer()">Passer</button>
+    <button class="game-button new-game" (click)="nouvellepartie()">Nouvelle Partie</button>
+  </div>
+
+  <p class="game-message" *ngIf="gameOver">La partie est terminée !</p>
+
+  <p class="copyright">© 2026 - CopyrightByAngelB</p>
 </div>
-
-<h5>Joueur 1 (blanc): {{ scorePlayer1 }}</h5>
-<h5>Joueur 2 (noir): {{ scorePlayer2 }}</h5>
-<h5>Tour actuel: {{ currentPlayer === 'black' ? 'Noir' : 'Blanc' }}</h5>
-
-<button (click)="finDeTour()">Fin de tour</button>
-<button (click)="passer()">Passer</button>
-
-<p *ngIf="gameOver">La partie est terminée.</p>
-<button (click)="nouvellepartie()">Nouvelle game</button>
-<p>©CopyrightByAngelB</p>

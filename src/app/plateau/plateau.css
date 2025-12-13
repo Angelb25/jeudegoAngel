@@ -1,94 +1,324 @@
-h1 {
-  text-align: center;
-  margin: 20px 0;
+/* ===== Base Styles ===== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
+#app-container {
+  background-color: #f5f5f5;
+  color: #333333;
+  transition: all 0.3s ease;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh; /* Prend toute la hauteur de la page */
+  width: 100%; /* Prend toute la largeur */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Contenu en haut */
+  box-sizing: border-box; /* Inclut le padding dans la hauteur */
+}
+
+/* Mode sombre */
+#app-container.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+/* ===== Titre ===== */
+.game-title {
+  margin: 20px 0 30px;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+}
+
+#app-container.dark-mode .game-title {
+  color: #e0e0e0;
+}
+
+/* ===== Bouton Mode Sombre/Clair ===== */
+.toggle-mode-button {
+  margin: 0 auto 25px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 30px;
+  background-color: #4a6fa5;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-mode-button:hover {
+  background-color: #3a5a8f;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+#app-container.dark-mode .toggle-mode-button {
+  background-color: #6c5ce7;
+}
+
+#app-container.dark-mode .toggle-mode-button:hover {
+  background-color: #5649c0;
+}
+
+/* ===== Conteneur de contenu (pour centrer le contenu) ===== */
+.content-container {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== Plateau ===== */
 .tableau-container {
   position: relative;
   width: 450px;
   height: 450px;
-  margin: auto;
+  margin: 20px auto;
+  background: linear-gradient(135deg, #e6c36a, #d4a53f);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-/* Grille 8×8 : en dessous, visuelle */
-.grille-8x8 {
+#app-container.dark-mode .tableau-container {
+  background: linear-gradient(135deg, #4a4a4a, #2e2e2e);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Grilles ===== */
+.grille-8x8, .grille-9x9 {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.grille-8x8 {
   z-index: 1;
-  opacity: 0.5;
   pointer-events: none;
 }
 
-.grille-8x8 .display-cell {
-  border: 1px solid black;
-  background-color: transparent;
-}
-
-/* Grille 9×9 : au-dessus, interactive */
 .grille-9x9 {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   z-index: 2;
-}
-.display-cell {
-  flex: 1;
-  border: 1px solid black;
-  background-color: #edff95;
-  position: relative;
-  cursor: pointer;
-
-  /* ✅ Ajout de taille minimale pour que les cases apparaissent */
-  min-width: 40px;
-  min-height: 40px;
+  pointer-events: auto;
+  padding: calc(100% / 18);
+  box-sizing: border-box;
 }
 
-.grille-9x9 .display-cell {
-  border: 1px solid black;
-  background-color: #edff95;
-  position: relative;
-  cursor: pointer;
-}
-
-.grille-9x9 .display-cell:hover {
-  background-color: #c19a1f;
-}
-
-.game-board {
+.grille-8x8 .game-board, .grille-9x9 .game-board {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background-color: #daa520;
 }
 
-.row {
+.grille-8x8 .row, .grille-9x9 .row {
   display: flex;
   flex: 1;
 }
 
-.stone-black::after,
-.stone-white::after {
+.grille-8x8 .display-cell {
+  flex: 1;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background-color: transparent;
+}
+
+.grille-9x9 .display-cell {
+  flex: none;
+  width: calc(100% / 9);
+  height: calc(100% / 9);
+  background-color: transparent;
+  border: none;
+  position: relative;
+  cursor: pointer;
+}
+
+/* ===== Pions ===== */
+.stone-black::after, .stone-white::after {
   content: '';
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 70%;
-  height: 70%;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
 }
 
 .stone-black::after {
-  background-color: black;
+  background-color: #000000;
 }
 
 .stone-white::after {
-  background-color: white;
-  border: 1px solid black;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+}
+
+#app-container.dark-mode .stone-white::after {
+  border: 1px solid #555555;
+}
+
+/* ===== Informations de jeu ===== */
+.game-info {
+  margin: 25px auto;
+  max-width: 300px;
+  text-align: center;
+}
+
+.player-scores {
+  background-color: rgba(74, 111, 165, 0.1);
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+#app-container.dark-mode .player-scores {
+  background-color: rgba(108, 92, 231, 0.1);
+}
+
+.player-score {
+  margin: 5px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.player-score span {
+  font-weight: 600;
+  color: #4a6fa5;
+}
+
+#app-container.dark-mode .player-score span {
+  color: #a29bfe;
+}
+
+.current-turn {
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 8px 15px;
+  background-color: rgba(46, 204, 113, 0.1);
+  border-radius: 8px;
+  display: inline-block;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+#app-container.dark-mode .current-turn {
+  background-color: rgba(3, 218, 198, 0.1);
+}
+
+.current-turn span {
+  font-weight: 600;
+  color: #2ecc71;
+}
+
+#app-container.dark-mode .current-turn span {
+  color: #03dac6;
+}
+
+/* ===== Boutons de jeu ===== */
+.game-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin: 25px auto;
+  max-width: 400px;
+  width: 100%;
+}
+
+.game-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  background-color: #4a6fa5;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 120px;
+}
+
+.game-button:hover {
+  background-color: #3a5a8f;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.game-button:active {
+  transform: translateY(1px);
+}
+
+#app-container.dark-mode .game-button {
+  background-color: #6c5ce7;
+}
+
+#app-container.dark-mode .game-button:hover {
+  background-color: #5649c0;
+}
+
+.new-game-button {
+  background-color: #e74c3c;
+}
+
+.new-game-button:hover {
+  background-color: #c0392b;
+}
+
+#app-container.dark-mode .new-game-button {
+  background-color: #ff6b6b;
+}
+
+#app-container.dark-mode .new-game-button:hover {
+  background-color: #e55039;
+}
+
+/* ===== Message de fin de partie ===== */
+.game-message {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: rgba(231, 76, 60, 0.1);
+  border-radius: 8px;
+  display: inline-block;
+  color: #e74c3c;
+  transition: all 0.3s ease;
+}
+
+#app-container.dark-mode .game-message {
+  background-color: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+}
+
+/* ===== Copyright ===== */
+.copyright {
+  font-size: 0.8rem;
+  margin: 30px auto 20px;
+  color: #7f8c8d;
+  font-style: italic;
+  transition: all 0.3s ease;
+}
+
+#app-container.dark-mode .copyright {
+  color: #bdc3c7;
 }

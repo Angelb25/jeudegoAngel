@@ -8,7 +8,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './plateau.html',
   styleUrls: ['./plateau.css'],
 })
-
 export class Plateau {
   // Grille 9x9 interactive
   board9 = Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ''));
@@ -24,27 +23,30 @@ export class Plateau {
   lastActionWasPass: boolean = false;
   gameOver: boolean = false;
 
-  //  Clic gauche : poser un pion sur la grille 9x9
+  // Mode sombre
+  isDarkMode: boolean = false;
+
+  toggleDarkMode(): void {
+    this.isDarkMode = !this.isDarkMode;
+    const appContainer = document.getElementById('app-container');
+    if (appContainer) {
+      appContainer.classList.toggle('dark-mode', this.isDarkMode);
+    }
+  }
+
+  // Clic gauche : poser un pion sur la grille 9x9
   onCellClick(row: number, col: number): void {
     if (this.gameOver) return;
 
     if (this.board9[row][col] === '') {
       this.board9[row][col] = this.currentPlayer;
-
-      // Mise à jour du score selon la couleur posée
-      if (this.currentPlayer === 'white') {
-        this.scorePlayer1++;
-      } else {
-        this.scorePlayer2++;
-      }
-
       // Changement de joueur
       this.togglePlayer();
-      this.lastActionWasPass = false; 
+      this.lastActionWasPass = false;
     }
   }
 
-  //  Clic droit : enlever une pierre adverse et augmenter son score
+  // Clic droit : enlever une pierre adverse et augmenter son score
   onRightClick(event: MouseEvent, row: number, col: number): void {
     event.preventDefault();
     if (this.gameOver) return;
@@ -53,11 +55,11 @@ export class Plateau {
     if (pion !== '') {
       this.board9[row][col] = '';
 
-      // Le joueur courant gagne un point en retirant une pierre adverse
-      if (this.currentPlayer === 'white' && pion === 'black') {
-        this.scorePlayer1++;
-      } else if (this.currentPlayer === 'black' && pion === 'white') {
-        this.scorePlayer2++;
+      // Le joueur adverse gagne un point en retirant une pierre
+      if (pion === 'white') {
+        this.scorePlayer2++; // Le joueur noir gagne un point
+      } else if (pion === 'black') {
+        this.scorePlayer1++; // Le joueur blanc gagne un point
       }
     }
   }
@@ -87,7 +89,7 @@ export class Plateau {
     this.lastActionWasPass = false;
   }
 
-  //  Passer : si deux passes, la partie est terminée
+  // Passer : si deux passes, la partie est terminée
   passer(): void {
     if (this.gameOver) return;
 
