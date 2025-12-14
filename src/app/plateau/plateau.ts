@@ -1,6 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+interface GameHistory {
+  date: string;
+  scorePlayer1: number;
+  scorePlayer2: number;
+  winner: string;
+}
+
 @Component({
   selector: 'app-plateau',
   standalone: true,
@@ -26,12 +33,81 @@ export class Plateau {
   // Mode sombre
   isDarkMode: boolean = false;
 
-  toggleDarkMode(): void {
-    this.isDarkMode = !this.isDarkMode;
-    const appContainer = document.getElementById('app-container');
-    if (appContainer) {
-      appContainer.classList.toggle('dark-mode', this.isDarkMode);
+  // Historique des parties
+  showHistory: boolean = false;
+
+  // Sauvegarder la partie dans le localStorage
+  saveGameHistory(): void {
+    const gameHistory: GameHistory = {
+      date: new Date().toLocaleString(),
+      scorePlayer1: this.scorePlayer1,
+      scorePlayer2: this.scorePlayer2,
+      winner: this.scorePlayer1 > this.scorePlayer2 ? 'Blanc' : this.scorePlayer1 < this.scorePlayer2 ? 'Noir' : 'Égalité'
+    };
+
+    // Récupérer l'historique existant ou créer un nouveau tableau
+    const history = JSON.parse(localStorage.getItem('goGameHistory') || '[]');
+
+    // Ajouter la nouvelle partie
+    history.push(gameHistory);
+
+    // Sauvegarder dans le localStorage
+    localStorage.setItem('goGameHistory', JSON.stringify(history));
+  }
+
+  // Charger l'historique des parties
+  loadGameHistory(): GameHistory[] {
+    return JSON.parse(localStorage.getItem('goGameHistory') || '[]');
+  }
+
+  // Effacer l'historique
+  clearGameHistory(): void {
+    localStorage.removeItem('goGameHistory');
+    // Recharger la page pour mettre à jour l'affichage
+    window.location.reload();
+  }
+
+  // Réinitialiser les deux grilles et les scores
+  nouvellepartie(): void {
+    // Sauvegarder la partie actuelle avant de réinitialiser
+    if (this.gameOver && (this.scorePlayer1 > 0 || this.scorePlayer2 > 0)) {
+      this.saveGameHistory();
     }
+
+    // Réinitialiser le jeu
+    this.board9 = Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ''));
+    this.board8 = Array.from({ length: 8 }, () => Array.from({ length: 8 }, () => ''));
+    this.currentPlayer = 'black';
+    this.scorePlayer1 = 0;
+    this.scorePlayer2 = 0;
+    this.lastActionWasPass = false;
+    this.gameOver = false;
+  }
+
+  // Fin de tour : changement de joueur
+  finDeTour(): void {
+    if (this.gameOver) return;
+    this.togglePlayer();
+    this.lastActionWasPass = false;
+  }
+
+  // Passer : si deux passes, la partie est terminée
+  passer(): void {
+    if (this.gameOver) return;
+
+    if (this.lastActionWasPass) {
+      this.gameOver = true;
+      this.saveGameHistory(); // Sauvegarder la partie
+      alert('La partie est terminée');
+    } else {
+      this.lastActionWasPass = true;
+      this.togglePlayer();
+    }
+  }
+
+  // Changement de joueur
+  private togglePlayer(): void {
+    this.currentPlayer = this.currentPlayer === 'black' ? 'white' : 'black';
   }
 
   // Clic gauche : poser un pion sur la grille 9x9
@@ -40,6 +116,7 @@ export class Plateau {
 
     if (this.board9[row][col] === '') {
       this.board9[row][col] = this.currentPlayer;
+
       // Changement de joueur
       this.togglePlayer();
       this.lastActionWasPass = false;
@@ -71,39 +148,12 @@ export class Plateau {
     return '';
   }
 
-  // Réinitialise les deux grilles et les scores
-  nouvellepartie(): void {
-    this.board9 = Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => ''));
-    this.board8 = Array.from({ length: 8 }, () => Array.from({ length: 8 }, () => ''));
-    this.currentPlayer = 'black';
-    this.scorePlayer1 = 0;
-    this.scorePlayer2 = 0;
-    this.lastActionWasPass = false;
-    this.gameOver = false;
-  }
-
-  // Fin de tour : changement de joueur
-  finDeTour(): void {
-    if (this.gameOver) return;
-    this.togglePlayer();
-    this.lastActionWasPass = false;
-  }
-
-  // Passer : si deux passes, la partie est terminée
-  passer(): void {
-    if (this.gameOver) return;
-
-    if (this.lastActionWasPass) {
-      this.gameOver = true;
-      alert('La partie est terminée');
-    } else {
-      this.lastActionWasPass = true;
-      this.togglePlayer();
+  // Basculer entre mode clair et mode sombre
+  toggleDarkMode(): void {
+    this.isDarkMode = !this.isDarkMode;
+    const appContainer = document.getElementById('app-container');
+    if (appContainer) {
+      appContainer.classList.toggle('dark-mode', this.isDarkMode);
     }
-  }
-
-  // Changement de joueur
-  private togglePlayer(): void {
-    this.currentPlayer = this.currentPlayer === 'black' ? 'white' : 'black';
   }
 }
