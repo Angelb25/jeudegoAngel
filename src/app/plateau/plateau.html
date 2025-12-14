@@ -2,11 +2,12 @@
   <h1 class="game-title">Jeu de Go</h1>
 
   <button class="toggle-mode-button" (click)="toggleDarkMode()">
-    {{ isDarkMode ? '🌞 Mode Clair' : '🌙 Mode Sombre' }}
+    {{ isDarkMode ? '☀️ Mode Clair' : '🌙 Mode Sombre' }}
   </button>
 
+
   <div class="tableau-container">
-    <!-- Grille 8×8 : visuelle uniquement -->
+    <!-- Grille 8×8  -->
     <div class="grille-8x8">
       <div class="game-board">
         @for (row of board8; track $index; let i = $index) {
@@ -19,12 +20,14 @@
       </div>
     </div>
 
-    <!-- Grille 9×9 : interactive, transparente -->
+    <!-- Grille 9×9  -->
     <div class="grille-9x9">
       <div class="game-board">
+        <!-- Boucle pour créer chaque ligne de la grille 9x9 -->
         @for (row of board9; track $index; let i = $index) {
           <div class="row">
             @for (cell of row; track $index; let j = $index) {
+              <!-- Cellule cliquable pour placer les pions -->
               <div class="display-cell"
                    (click)="onCellClick(i,j)"
                    (contextmenu)="onRightClick($event,i,j)"
@@ -46,28 +49,39 @@
     <h5 class="current-turn">Tour actuel: <span>{{ currentPlayer === 'black' ? 'Noir' : 'Blanc' }}</span></h5>
   </div>
 
- <div class="game-buttons">
-  <button class="game-button" (click)="finDeTour()">Fin de tour</button>
-  <button class="game-button" (click)="passer()">Passer</button>
-  <button class="game-button new-game-button" (click)="nouvellepartie()">Nouvelle Partie</button>
-  <button class="game-button history-button" (click)="showHistory = !showHistory">
-    {{ showHistory ? 'Masquer l\'historique' : 'Afficher l\'historique' }}
-  </button>
-</div>
+  <!-- les boutons -->
+  <div class="game-buttons">
 
+    <button class="game-button" (click)="finDeTour()">Fin de tour</button>
+
+    <button class="game-button" (click)="passer()">Passer</button>
+
+    <button class="game-button new-game-button" (click)="nouvellepartie()">Nouvelle Partie</button>
+
+    <button class="game-button history-button" (click)="showHistory = !showHistory">
+      {{ showHistory ? 'Masquer l\'historique' : 'Afficher l\'historique' }}
+    </button>
+  </div>
   <p class="game-message" *ngIf="gameOver">La partie est terminée !</p>
 
+  <!-- Mention de copyright -->
   <p class="copyright">© 2026 - CopyrightByAngelB</p>
 
-<div class="game-history" *ngIf="showHistory">
-  <h3>Historique des parties</h3>
-  <button class="clear-history-button" (click)="clearGameHistory()">Effacer l'historique</button>
-  <div class="history-list">
-    <div class="history-item" *ngFor="let game of loadGameHistory(); let i = index">
-      <p><strong>Partie {{ loadGameHistory().length - i }}:</strong> {{ game.date }}</p>
-      <p>Blanc: {{ game.scorePlayer1 }} | Noir: {{ game.scorePlayer2 }}</p>
-      <p>Vainqueur: {{ game.winner }}</p>
+  <!-- historique des parties -->
+  <!-- que si showHistory est vrai -->
+  <div class="game-history" *ngIf="showHistory">
+    <h3>Historique des parties</h3>
+    <button class="clear-history-button" (click)="clearGameHistory()">Effacer l'historique</button>
+    <!-- liste des parties -->
+    <div class="history-list">
+      <!-- Boucle pour afficher chaque partie de l'historique -->
+      <div class="history-item" *ngFor="let game of loadGameHistory(); let i = index">
+        <!-- Numéro et date de la partie -->
+        <p><strong>Partie {{ loadGameHistory().length - i }}:</strong> {{ game.date }}</p>
+        <p>Blanc: {{ game.scorePlayer1 }} | Noir: {{ game.scorePlayer2 }}</p>
+        <p>Vainqueur: {{ game.winner }}</p>
+      </div>
+      <p *ngIf="loadGameHistory().length === 0">Aucune partie enregistrée.</p>
     </div>
-    <p *ngIf="loadGameHistory().length === 0">Aucune partie enregistrée.</p>
   </div>
 </div>
